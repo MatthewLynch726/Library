@@ -30,14 +30,21 @@ namespace LibraryServices
 
         public string GetAuthorOrDirector(int id)
         {
-            throw new NotImplementedException();
+            var isBook = _context.LibraryAssets.OfType<Book>()
+                .Where(a => a.Id == id).Any();
+
+            var isVideo = _context.LibraryAssets.OfType<Video>()
+                .Where(a => a.Id == id).Any();
+
+            return isBook ?
+                _context.Books.FirstOrDefault(book => book.Id == id).Author :
+                _context.Videos.FirstOrDefault(video => video.Id == id).Director
+                ?? "Unknown";
         }
 
         public LibraryAsset GetById(int id)
         {
-            return _context.LibraryAssets
-                .Include(asset => asset.Status)
-                .Include(asset => asset.Status)
+            return GetAll()
                 .FirstOrDefault(asset => asset.Id == id);
         }
 
@@ -62,12 +69,17 @@ namespace LibraryServices
 
         public string GetTitle(int id)
         {
-            throw new NotImplementedException();
+            return _context.LibraryAssets
+                .FirstOrDefault(a => a.Id == id)
+                .Title;
         }
 
         public string GetType(int id)
         {
-            throw new NotImplementedException();
+            var book = _context.LibraryAssets.OfType<Book>()
+                .Where(book => book.Id == id);
+
+            return book.Any() ? "Book" : "Video";
         }
     }
 }
