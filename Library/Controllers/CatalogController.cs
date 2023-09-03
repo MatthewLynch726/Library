@@ -1,4 +1,5 @@
-﻿using Library.Models.Catalog;
+﻿using Library.Models;
+using Library.Models.Catalog;
 using LibraryData;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,13 @@ namespace Library.Controllers
                     Title = result.Title,
                     Type = _assets.GetType(result.Id)
                 });
+
+            var model = new AssetIndexModel()
+            {
+                Assets = listingResult
+            };
+
+            return View(model);
         }
     }
 }

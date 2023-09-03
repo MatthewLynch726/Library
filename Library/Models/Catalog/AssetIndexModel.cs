@@ -1,6 +1,4 @@
-﻿using Library.Models.Catalog;
-
-namespace Library.Models
+﻿namespace Library.Models.Catalog
 {
     public class AssetIndexModel
     {
