@@ -1,6 +1,7 @@
 ﻿using Library;
 using Library.Models;
 using LibraryData;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,10 @@ namespace LibraryServices
 
         public IEnumerable<CheckoutHistory> GetCheckoutHistory(int id)
         {
-            throw new NotImplementedException();
+            return _context.CheckoutsHistories
+                .Include(h => h.LibraryAsset)
+                .Include(h => h.LibraryCard)
+                .Where(h => h.LibraryAsset.Id == id);
         }
 
         public DateTime GetCurrentHoldPlaced(int id)
@@ -51,7 +55,9 @@ namespace LibraryServices
 
         public IEnumerable<Hold> GetCurrentHolds(int id)
         {
-            throw new NotImplementedException();
+            return _context.Holds
+                .Include(h => h.LibraryAsset)
+                .Where(h=>h.LibraryAsset.Id == id);
         }
 
         public void CheckInItem(int assetId, int libraryCardId)
@@ -64,7 +70,7 @@ namespace LibraryServices
             throw new NotImplementedException();
         }
 
-        public void MarkFound(int assetId)
+        public void MarkFound(int assetId) //Where ended VIdeo
         {
             throw new NotImplementedException();
         }
@@ -77,6 +83,13 @@ namespace LibraryServices
         public void PlaceHold(int assetId, int libraryCardId)
         {
             throw new NotImplementedException();
+        }
+
+        public Checkout GetLatestCheckout(int assetId)
+        {
+            return _context.Checkouts.Where(c => c.LibraryAsset.Id == assetId)
+                .OrderByDescending(c=>c.Since)
+                .FirstOrDefault();
         }
     }
 }
