@@ -48,7 +48,7 @@ namespace LibraryServices
             throw new NotImplementedException();
         }
 
-        public string GetCurrentHoldPtronName(int id)
+        public string GetCurrentHoldPatronName(int id)
         {
             throw new NotImplementedException();
         }
@@ -203,7 +203,27 @@ namespace LibraryServices
 
         public void PlaceHold(int assetId, int libraryCardId)
         {
-            throw new NotImplementedException();
+            var now = DateTime.Now;
+
+            var asset = _context.LibraryAssets.FirstOrDefault(a => a.Id == assetId);
+
+            var card = _context.LibraryCards
+                .FirstOrDefault(c => c.Id == libraryCardId);
+
+            if(asset.Status.Name == "Available")
+            {
+                UpdateAssetStatus(assetId, "On Hold");
+            }
+
+            var hold = new Hold
+            {
+                HoldPlaced = now,
+                LibraryAsset = asset,
+                LibraryCard = card
+            };
+
+            _context.Add(hold);
+            _context.SaveChanges();
         }
 
         public Checkout GetLatestCheckout(int assetId)
