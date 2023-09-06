@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -15,4 +15,14 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.imageCell {
+    width: 128px;
+    padding: 10px;
+}
+
+.detailImage {
+    width: 200px;
+    padding-bottom: 6px;
 }

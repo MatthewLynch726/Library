@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 //If you are having problems, look into more detail of services.AddSingleton(Configuration)
 builder.Services.AddScoped<ILibraryAsset, LibraryAssetService>();
+builder.Services.AddScoped<ICheckout, CheckoutService>();
 
 builder.Services.AddDbContext<LibraryContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("LibraryConnection")
