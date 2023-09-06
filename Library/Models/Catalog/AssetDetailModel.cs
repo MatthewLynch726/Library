@@ -16,6 +16,7 @@
         public Checkout LatestCheckout { get; set; }
         public IEnumerable<CheckoutHistory> CheckoutHistory { get; set; }
         public IEnumerable<AssetHoldModel> CurrentHolds { get; set; }
+        public string Type { get; set; }
     }
 
     public class AssetHoldModel

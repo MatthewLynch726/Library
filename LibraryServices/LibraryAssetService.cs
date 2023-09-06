@@ -24,7 +24,7 @@ namespace LibraryServices
         public IEnumerable<LibraryAsset> GetAll()
         {
             return _context.LibraryAssets
-                .Include(asset => asset.Status)
+                .Include(asset => asset.Location)
                 .Include(asset => asset.Status);
         }
 
@@ -64,7 +64,11 @@ namespace LibraryServices
 
         public string GetIsbn(int id)
         {
-            throw new NotImplementedException();
+            if (_context.Books.Any(book => book.Id == id))
+            {
+                return _context.Books.FirstOrDefault(book => book.Id == id).ISBN;
+            }
+            else return "";
         }
 
         public string GetTitle(int id)

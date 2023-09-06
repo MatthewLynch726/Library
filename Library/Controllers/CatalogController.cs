@@ -53,7 +53,8 @@ namespace Library.Controllers
                 AuthorOrDirector = _assets.GetAuthorOrDirector(id),
                 CurrentLocation = _assets.GetCurrentLocation(id).Name,
                 DeweyCallNumber = _assets.GetDeweyIndex(id),
-                ISBN = _assets.GetIsbn(id)
+                ISBN = _assets.GetIsbn(id),
+                Type = _assets.GetType(id)
             };
             return View(model);
         }
