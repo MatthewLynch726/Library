@@ -21,6 +21,7 @@ namespace LibraryData
         string GetCurrentHoldPatronName(int id);
         DateTime GetCurrentHoldPlaced(int id);
         IEnumerable<Hold> GetCurrentHolds(int id);
+        string GetCurrentCheckoutPatron(int assetId);
 
         void MarkLost(int assetId);
         void MarkFound(int assetId);

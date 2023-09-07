@@ -43,14 +43,29 @@ namespace LibraryServices
                 .Where(h => h.LibraryAsset.Id == id);
         }
 
-        public DateTime GetCurrentHoldPlaced(int id)
+        public DateTime GetCurrentHoldPlaced(int holdId)
         {
-            throw new NotImplementedException();
+            return _context.Holds
+               .Include(h => h.LibraryAsset)
+               .Include(h => h.LibraryCard)
+               .FirstOrDefault(h => h.Id == holdId)
+               .HoldPlaced;
+
         }
 
-        public string GetCurrentHoldPatronName(int id)
+        public string GetCurrentHoldPatronName(int holdId)
         {
-            throw new NotImplementedException();
+            var hold = _context.Holds
+                .Include(h => h.LibraryAsset)
+                .Include (h => h.LibraryCard)
+                .FirstOrDefault(h=> h.Id == holdId);
+
+            var cardId = hold?.LibraryCard.Id;
+
+            var patron = _context.Patrons.Include(p => p.LibraryCard)
+                .FirstOrDefault(p => p.LibraryCard.Id == cardId);
+
+            return patron?.FirstName + " " + patron?.LastName;
         }
 
         public IEnumerable<Hold> GetCurrentHolds(int id)
@@ -231,6 +246,32 @@ namespace LibraryServices
             return _context.Checkouts.Where(c => c.LibraryAsset.Id == assetId)
                 .OrderByDescending(c=>c.Since)
                 .FirstOrDefault();
+        }
+
+        public string GetCurrentCheckoutPatron(int assetId)
+        {
+            var checkout = GetCheckoutByAssetId(assetId);
+
+            if (checkout == null)
+            {
+                return "Not checked out.";
+            }
+
+            var cardId = checkout.LibraryCard.Id;
+
+            var patron = _context.Patrons.
+                Include(p=> p.LibraryCard)
+                .FirstOrDefault(p=> p.LibraryCard.Id == cardId);
+
+            return patron.FirstName + " " + patron.LastName;
+        }
+
+        private Checkout GetCheckoutByAssetId(int assetId)
+        {
+            return _context.Checkouts
+                .Include(co => co.LibraryAsset)
+                .Include(co => co.LibraryCard)
+                .FirstOrDefault(c => c.LibraryAsset.Id == assetId);
         }
     }
 }
