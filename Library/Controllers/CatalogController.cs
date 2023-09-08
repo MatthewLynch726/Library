@@ -89,10 +89,10 @@ namespace Library.Controllers
             return View(model);
         }
 
-        public IActionResult CheckIn(int assetId)
+        public IActionResult CheckIn(int id)
         {
-            _checkouts.CheckInItem(assetId);
-            return RedirectToAction("Detail", new { id = assetId });
+            _checkouts.CheckInItem(id);
+            return RedirectToAction("Detail", new { id = id });
         }
 
         public IActionResult Hold(int id)
