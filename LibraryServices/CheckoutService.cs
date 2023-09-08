@@ -75,7 +75,7 @@ namespace LibraryServices
                 .Where(h=>h.LibraryAsset.Id == id);
         }
 
-        public void CheckInItem(int assetId, int libraryCardId)
+        public void CheckInItem(int assetId)
         {
             var now = DateTime.Now;
 
@@ -220,7 +220,9 @@ namespace LibraryServices
         {
             var now = DateTime.Now;
 
-            var asset = _context.LibraryAssets.FirstOrDefault(a => a.Id == assetId);
+            var asset = _context.LibraryAssets
+                .Include(a=> a.Status)
+                .FirstOrDefault(a => a.Id == assetId);
 
             var card = _context.LibraryCards
                 .FirstOrDefault(c => c.Id == libraryCardId);
