@@ -120,7 +120,7 @@ namespace Library.Controllers
         [HttpPost]
         public IActionResult PlaceCheckout(int assetId, int libraryCardId)
         {
-            _checkouts.CheckInItem(assetId, libraryCardId);
+            _checkouts.CheckOutItem(assetId, libraryCardId);
             return RedirectToAction("Detail", new { id = assetId });
         }
 
